@@ -1,4 +1,4 @@
-package config
+package database
 
 import (
 	"github.com/ropehapi/controle-financeiro-go/models"
@@ -6,18 +6,15 @@ import (
 	"gorm.io/gorm"
 )
 
-var (
-	DB  *gorm.DB
-	err error
-)
-
-func GetConn() {
+func GetConn() *gorm.DB{
 	dsn := "root:159357@tcp(localhost:3306)/db_controle_financeiro_go?charset=utf8&parseTime=True&loc=Local"
-	DB, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic(err.Error())
 	}
 
-	DB.AutoMigrate(&models.Account{})
+	db.AutoMigrate(&models.Account{})
+
+	return db
 }
